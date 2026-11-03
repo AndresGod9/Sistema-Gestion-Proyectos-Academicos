@@ -11,6 +11,11 @@ load_dotenv(BASE_DIR / ".env", override=True)
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
 
+    if not SECRET_KEY:
+        raise RuntimeError(
+            "No se encontró SECRET_KEY en el archivo .env"
+        )
+
     DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
     DB_PORT = int(os.getenv("DB_PORT", "3306"))
     DB_USER = os.getenv("DB_USER", "root")
