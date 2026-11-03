@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes del proyecto</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <h1>Reporte del proyecto</h1>
+
+    <h2>{{ proyecto.nombre }}</h2>
+
+    <p>Estado del proyecto: {{ proyecto.estado }}</p>
+
+    <hr>
+
+    <h2>Resumen de tareas</h2>
+
+    <p>Total de tareas: {{ total }}</p>
+    <p>Pendientes: {{ pendientes }}</p>
+    <p>En progreso: {{ en_progreso }}</p>
+    <p>Finalizadas: {{ finalizadas }}</p>
+    <p>Retrasadas: {{ retrasadas }}</p>
+
+    <h2>Avance del proyecto</h2>
+
+    <p>{{ avance }} % completado</p>
+
+    <progress value="{{ avance }}" max="100"></progress>
+
+    <hr>
+
+    <h2>Detalle de las tareas</h2>
+
+    {% if tareas %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Tarea</th>
+                    <th>Responsable</th>
+                    <th>Fecha de entrega</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for tarea in tareas %}
+                <tr>
+                    <td>{{ tarea.titulo }}</td>
+                    <td>{{ tarea.responsable }}</td>
+                    <td>{{ tarea.fecha_entrega }}</td>
+                    <td>{{ tarea.estado }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Este proyecto todavía no tiene tareas registradas.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('proyectos.listar_proyectos') }}">
+        Volver a proyectos
+    </a>
+
+</body>
+</html>

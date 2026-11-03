@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Crear cuenta</h1>
+
+        {% with mensajes = get_flashed_messages() %}
+            {% for mensaje in mensajes %}
+                <p>{{ mensaje }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="text" name="nombre" placeholder="Nombre completo" required>
+            <input type="email" name="correo" placeholder="Correo electrónico" required>
+            <input type="password" name="contrasena" placeholder="Contraseña (mínimo 8 caracteres)" minlength="8" required>
+            <button type="submit">Registrarme</button>
+        </form>
+
+        <p>¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Iniciar sesión</a></p>
+    </div>
+</body>
+</html>

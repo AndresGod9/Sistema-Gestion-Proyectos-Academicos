@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear proyecto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Crear proyecto académico</h1>
+
+        {% with mensajes = get_flashed_messages() %}
+            {% for mensaje in mensajes %}
+                <p>{{ mensaje }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <label>Nombre del proyecto</label>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <input type="text" name="nombre"
+                   placeholder="Ej. Sistema de gestión académica"
+                   maxlength="150" required>
+
+            <label>Descripción</label>
+            <textarea name="descripcion"
+                      placeholder="Describe brevemente el proyecto"
+                      rows="4"></textarea>
+
+            <label>Fecha de inicio</label>
+            <input type="date" name="fecha_inicio" required>
+
+            <label>Fecha de entrega</label>
+            <input type="date" name="fecha_entrega" required>
+
+            <button type="submit">Guardar proyecto</button>
+
+        </form>
+
+        <p>
+            <a href="{{ url_for('proyectos.listar_proyectos') }}">
+                Volver a proyectos
+            </a>
+        </p>
+    </div>
+
+</body>
+</html>

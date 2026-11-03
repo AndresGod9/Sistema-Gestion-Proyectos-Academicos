@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero Kanban</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+    <style>
+        .tablero {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(220px, 1fr));
+            gap: 15px;
+            align-items: start;
+            margin-top: 25px;
+        }
+
+        .columna {
+            background: #eef2f7;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 200px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 7px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .tarjeta h3 {
+            color: #243b53;
+            margin-top: 0;
+        }
+
+        .tarjeta select {
+            width: 100%;
+            padding: 9px;
+            margin: 8px 0;
+        }
+
+        .columna h2 {
+            font-size: 19px;
+        }
+
+        @media (max-width: 750px) {
+            .tablero {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor" style="max-width: 1100px;">
+
+        <h1>Tablero Kanban</h1>
+        <h2>{{ proyecto.nombre }}</h2>
+
+        {% with mensajes = get_flashed_messages() %}
+            {% for mensaje in mensajes %}
+                <p>{{ mensaje }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <div class="tablero">
+
+            {% for estado, titulo in [
+                ('PENDIENTE', 'Pendiente'),
+                ('EN_PROGRESO', 'En progreso'),
+                ('FINALIZADO', 'Finalizado')
+            ] %}
+
+                <div class="columna">
+                    <h2>{{ titulo }}</h2>
+
+                    {% for tarea in tareas if tarea.estado == estado %}
+
+                        <div class="tarjeta">
+                            <h3>{{ tarea.titulo }}</h3>
+
+                            <p>{{ tarea.descripcion or 'Sin descripción' }}</p>
+
+                            <p>
+                                <strong>Responsable:</strong>
+                                {{ tarea.responsable }}
+                            </p>
+
+                            <p>
+                                <strong>Entrega:</strong>
+                                {{ tarea.fecha_entrega }}
+                            </p>
+
+                            {% if puede_cambiar_estado %}
+                                <form method="POST"
+                                      action="{{ url_for('tareas.cambiar_estado',
+                                      id_proyecto=proyecto.id_proyecto,
+                                      id_tarea=tarea.id_tarea) }}">
+
+                                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                    <label>Cambiar estado:</label>
+
+                                    <select name="estado" required>
+                                        <option value="PENDIENTE"
+                                            {% if tarea.estado == 'PENDIENTE' %}selected{% endif %}>
+                                            Pendiente
+                                        </option>
+
+                                        <option value="EN_PROGRESO"
+                                            {% if tarea.estado =='EN_PROGRESO' %}selected{% endif %}>
+                                            En progreso
+                                        </option>
+
+                                        <option value="FINALIZADO"
+                                            {% if tarea.estado == 'FINALIZADO' %}selected{% endif %}>
+                                            Finalizado
+                                        </option>
+                                    </select>
+
+                                    <button type="submit">Actualizar estado</button>
+                                </form>
+                            {% endif %}
+                        </div>
+
+                    {% else %}
+                        <p>No hay tareas en esta columna.</p>
+                    {% endfor %}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <p>
+            <a href="{{ url_for('tareas.listar_tareas',
+            id_proyecto=proyecto.id_proyecto) }}">
+                Volver a las tareas
+            </a>
+        </p>
+
+    </div>
+</body>
+</html>

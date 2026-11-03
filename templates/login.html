@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Iniciar sesión</h1>
+
+        {% with mensajes = get_flashed_messages() %}
+            {% for mensaje in mensajes %}
+                <p>{{ mensaje }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="email" name="correo" placeholder="Correo electrónico" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+        </form>
+
+        <p>¿No tienes cuenta? <a href="{{ url_for('auth.registro') }}">Registrarse</a></p>
+    </div>
+</body>
+</html>

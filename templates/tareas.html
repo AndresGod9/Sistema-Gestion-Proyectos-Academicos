@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de tareas</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <h1>Gestión de tareas</h1>
+
+    <h2>{{ proyecto.nombre }}</h2>
+
+    <hr>
+
+    <h3>Listado de tareas</h3>
+
+    {% if tareas %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Responsable</th>
+                    <th>Fecha de entrega</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for tarea in tareas %}
+                <tr>
+                    <td>{{ tarea.titulo }}</td>
+                    <td>{{ tarea.descripcion or 'Sin descripción' }}</td>
+                    <td>{{ tarea.responsable }}</td>
+                    <td>{{ tarea.fecha_entrega }}</td>
+                    <td>{{ tarea.estado }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>Este proyecto todavía no tiene tareas registradas.</p>
+    {% endif %}
+
+    <hr>
+
+    {% if puede_crear %}
+        <p>
+            <a href="{{ url_for('tareas.crear_tarea',
+            id_proyecto=proyecto.id_proyecto) }}">
+                Crear nueva tarea
+            </a>
+        </p>
+    {% endif %}
+
+    <p>
+        <a href="{{ url_for('tareas.tablero_kanban',
+        id_proyecto=proyecto.id_proyecto) }}">
+            Abrir tablero Kanban
+        </a>
+    </p>
+
+    <p>
+        <a href="{{ url_for('reportes.ver_reportes',
+        id_proyecto=proyecto.id_proyecto) }}">
+            Ver reportes del proyecto
+        </a>
+    </p>
+
+    <p>
+        <a href="{{ url_for('proyectos.listar_proyectos') }}">
+            Volver a proyectos
+        </a>
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos académicos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Proyectos académicos</h1>
+
+        {% with mensajes = get_flashed_messages() %}
+            {% for mensaje in mensajes %}
+                <p>{{ mensaje }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        {% if puede_crear %}
+            <p>
+                <a href="{{ url_for('proyectos.crear_proyecto') }}">
+                    Crear nuevo proyecto
+                </a>
+            </p>
+        {% endif %}
+
+        {% if proyectos %}
+            {% for proyecto in proyectos %}
+                <div class="proyecto">
+                    <h2>{{ proyecto.nombre }}</h2>
+
+                    <p>{{ proyecto.descripcion or 'Sin descripción' }}</p>
+
+                    <p>
+                        <strong>Gestor:</strong>
+                        {{ proyecto.nombre_gestor }}
+                    </p>
+
+                    <p>
+                        <strong>Inicio:</strong>
+                        {{ proyecto.fecha_inicio }}
+                    </p>
+
+                    <p>
+                        <strong>Entrega:</strong>
+                        {{ proyecto.fecha_entrega }}
+                    </p>
+
+                    <p>
+                        <strong>Estado:</strong>
+                        {{ proyecto.estado }}
+                    </p>
+                    {% if puede_crear %}
+    <p>
+        <a href="{{ url_for('integrantes.gestionar_integrantes',
+        id_proyecto=proyecto.id_proyecto) }}">
+            Gestionar integrantes
+        </a>
+    </p>
+{% endif %}
+
+<p>
+    <a href="{{ url_for('tareas.listar_tareas',
+    id_proyecto=proyecto.id_proyecto) }}">
+        Gestionar tareas
+    </a>
+</p>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>Todavía no hay proyectos registrados.</p>
+        {% endif %}
+
+        <p>
+            <a href="{{ url_for('auth.dashboard') }}">
+                Volver al panel principal
+            </a>
+        </p>
+    </div>
+
+</body>
+</html>

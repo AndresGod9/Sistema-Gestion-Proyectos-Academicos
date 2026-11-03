@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear tarea</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Crear tarea</h1>
+        <h2>{{ proyecto.nombre }}</h2>
+
+        {% with mensajes = get_flashed_messages() %}
+            {% for mensaje in mensajes %}
+                <p>{{ mensaje }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        {% if colaboradores %}
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <label>Título de la tarea</label>
+                <input type="text" name="titulo"
+                       maxlength="150"
+                       placeholder="Ej. Diseñar la base de datos"
+                       required>
+
+                <label>Descripción</label>
+                <textarea name="descripcion"
+                          rows="4"
+                          placeholder="Describe la actividad"></textarea>
+
+                <label>Fecha de entrega</label>
+                <input type="date" name="fecha_entrega" required>
+
+                <label>Asignar responsable</label>
+                <select name="id_responsable" required>
+                    <option value="">Selecciona un colaborador</option>
+
+                    {% for usuario in colaboradores %}
+                        <option value="{{ usuario.id_usuario }}">
+                            {{ usuario.nombre }} - {{ usuario.correo }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Crear y asignar tarea</button>
+            </form>
+        {% else %}
+            <p>Este proyecto todavía no tiene colaboradores registrados.</p>
+            <p>Agrega primero un integrante para poder asignarle tareas.</p>
+        {% endif %}
+
+        <p>
+            <a href="{{ url_for('tareas.listar_tareas',
+            id_proyecto=proyecto.id_proyecto) }}">
+                Volver a las tareas
+            </a>
+        </p>
+    </div>
+
+</body>
+</html>

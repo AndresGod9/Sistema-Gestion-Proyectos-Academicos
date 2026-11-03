@@ -1,0 +1,209 @@
+
+/* CONFIGURACIÓN GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f1f5f9;
+    color: #263445;
+    padding: 30px;
+    line-height: 1.6;
+}
+
+/* TÍTULOS */
+h1 {
+    color: #17365d;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 30px;
+}
+
+h2 {
+    color: #24476b;
+    margin: 20px 0;
+}
+
+h3 {
+    color: #315574;
+    margin: 15px 0;
+}
+
+p {
+    margin: 12px 0;
+}
+
+/* CONTENIDO */
+form {
+    background: white;
+    max-width: 600px;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2878c8;
+    box-shadow: 0 0 0 2px rgba(40, 120, 200, 0.12);
+}
+
+/* BOTONES */
+button,
+input[type="submit"] {
+    background-color: #2167a5;
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #174b7a;
+}
+
+/* ENLACES */
+a {
+    color: #1769aa;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    color: #0d4777;
+    text-decoration: underline;
+}
+
+/* TABLAS */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+th {
+    background-color: #24476b;
+    color: white;
+    padding: 13px;
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+tr:hover {
+    background-color: #f1f6fb;
+}
+
+/* LÍNEAS DIVISORIAS */
+hr {
+    border: none;
+    border-top: 1px solid #d5dde6;
+    margin: 25px 0;
+}
+
+/* BARRA DE AVANCE */
+progress {
+    width: 100%;
+    height: 20px;
+    accent-color: #2167a5;
+    margin: 10px 0 20px;
+}
+
+/* MENSAJES */
+ul {
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+/* TABLERO KANBAN */
+.kanban-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.kanban-columna {
+    background: #e2e8f0;
+    padding: 18px;
+    border-radius: 10px;
+    min-height: 250px;
+}
+
+.kanban-columna h2 {
+    text-align: center;
+    font-size: 18px;
+}
+
+.kanban-tarea {
+    background: white;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* DISEÑO PARA CELULARES */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .kanban-container {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    form {
+        padding: 18px;
+    }
+}
+    
